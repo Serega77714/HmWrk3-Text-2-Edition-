@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace HmWrk3_Text2
 {
@@ -7,7 +9,18 @@ namespace HmWrk3_Text2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("To do homework 3, place the file for processing text.txt on the desktop");
+            DirectoryInfo dirInfo = new DirectoryInfo("c:/Users/User/Desktop/Source");
+            if (!dirInfo.Exists)
+            {
+                dirInfo.Create();
+            }
+            DirectoryInfo dirInfo1 = new DirectoryInfo("c:/Users/User/Desktop/Result");
+            if (!dirInfo1.Exists)
+            {
+                dirInfo1.Create();
+            }
+            
+            Console.WriteLine("To do homework 3, put the file for processing text.txt on c:/Users/User/Desktop/Source/");
             Console.WriteLine("Press 1 to write the text into sentences");
             Console.WriteLine("Press 2 to write the text into words");
             Console.WriteLine("Press 3 to write the text into punctuation");
@@ -15,39 +28,85 @@ namespace HmWrk3_Text2
             Console.WriteLine("Press 5 to write the longest sentence by the number of characters");
             Console.WriteLine("Press 6 to write the shortest sentence by the number of characters");
             Console.WriteLine("Press 7  to write a list of used letters descending from the number of their use");
+            Console.WriteLine();
+            Console.WriteLine("New file  *.txt you can put in a folder c:/Users/User/Desktop/Source/");
 
 
-            ReadWriter rw = new ReadWriter();
+            Watcher wr = new Watcher();
+            wr.Run();
+            ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
+            //ReadWriter ReadWriter = new ReadWriter();
+            //ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
 
             string con = "Y";
             for (; con == "Y" || con == "y";)
             {
+               
+                    
                 switch (Console.ReadLine())
                 {
                     case "1":
-                    { rw.WriteSentence(); Console.WriteLine("Text was splited on sentence and record in file SplitTextSentence.txt on the desktop"); }
+                    { ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
+                        Thread thread1 = new Thread(ReadWriter.WriteSentence);
+                     thread1.Start();
+
+                    }
                         break;
                     case "2":
-                    { rw.WriteWord(); Console.WriteLine("Text was splited on words and record in file SplitTextWord.txt on the desktop"); }
+                    { ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
+                        Thread thread2 = new Thread(ReadWriter.WriteWord);
+                        thread2.Start();
+
+                    }
                         break;
                     case "3":
-                    { rw.WritePunctMarks(); Console.WriteLine("Text was splited on punctuation marks and record in file SplitPunctMarks.txt on the desktop"); }
+                    {
+                        ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
+                        Thread thread3 = new Thread(ReadWriter.WritePunctMarks);
+                        thread3.Start();
+                        
+                    }
                         break;
                     case "4":
-                    { rw.WriteWordsOrderByAlphabet(); Console.WriteLine("Text was splited on words and order by alphabet and record in file TextWordOrderByAlphabet.txt on the desktop"); }
+                    { ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
+                        Thread thread4 = new Thread(ReadWriter.WriteWordsOrderByAlphabet);
+                        thread4.Start();
+                        Console.WriteLine("Wait until the end of the process, otherwise you may get an exception...");
+                    }
                         break;
                     case "5":
-                    { rw.WriteLongestSentence(); Console.WriteLine("Longest Sentence record in file LongestSentence.txt on the desktop"); }
+                    { ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
+                        Thread thread5 = new Thread(ReadWriter.WriteLongestSentence);
+                        thread5.Start();
+                    }
                         break;
                     case "6":
-                    { rw.WriteShortestSentence(); Console.WriteLine("Shortest Sentence record in file LongestSentence.txt on the desktop"); }
+                    { ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
+                        Thread thread6 = new Thread(ReadWriter.WriteShortestSentence);
+                        thread6.Start();
+
+                    }
                         break;
                     case "7":
-                    { rw.WriteMostСommonLetter(); Console.WriteLine("Text was splited on Letter order by count and record in file MostСommonLetter.txt on the desktop"); }
+                    { ReadWriter.sourceFilePath = @"c:/Users/User/Desktop/Source/text.txt";
+                        Thread thread7 = new Thread(ReadWriter.WriteMostСommonLetter);
+                        thread7.Start();
+                    }
                         break;
+                    default:
+                        Console.WriteLine("incorrect number");
+                        break;
+
                 }
-            Console.WriteLine("Will you continue?-Y/N");
-            con = Console.ReadLine();
+                Console.WriteLine("Will you continue?-Y/N");
+                con = Console.ReadLine();
+                while (con != "Y" & con != "y" & con != "N" & con != "n")
+                {
+                    Console.WriteLine("Input Y or N");
+                    con = Console.ReadLine();
+                }
+                wr.con = con;
+
             }
 
         }

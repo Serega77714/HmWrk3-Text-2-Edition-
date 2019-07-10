@@ -15,8 +15,8 @@ namespace HmWrk3_Text2
 
         public string[] GetSentence()
         {
-            ReadWriter rw = new ReadWriter();
-            string[] SplitTextSentence = new Regex(pattern3).Split(rw.ReadAndCleanText());
+            //ReadWriter ReadWriter = new ReadWriter();
+            string[] SplitTextSentence = new Regex(pattern3).Split(ReadWriter.ReadAndCleanText());
             return SplitTextSentence;
         }
 

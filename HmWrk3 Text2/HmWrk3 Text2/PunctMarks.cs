@@ -11,8 +11,8 @@ namespace HmWrk3_Text2
 
         public string[] GetPunctMarks()
         {
-            ReadWriter rw = new ReadWriter();
-            string[] SplitPunctMarks = new Regex(pattern5).Split(rw.ReadAndCleanText());
+            //ReadWriter ReadWriter = new ReadWriter();
+            string[] SplitPunctMarks = new Regex(pattern5).Split(ReadWriter.ReadAndCleanText());
             return SplitPunctMarks;
         }
     }

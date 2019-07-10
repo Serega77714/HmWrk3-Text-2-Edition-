@@ -7,12 +7,13 @@ namespace HmWrk3_Text2
 {
     class WordsOrderByAlphabet
     {
-        Word wr=new Word();
-
+        Word wd=new Word();
+        public int count;
         public IEnumerable<string> WordOrderByAlphabet()
         {
-            var WordOrderByAlphabet =wr.GetWords().Where(i => !i.Contains(" ")).
+            var WordOrderByAlphabet =wd.GetWords().Where(i => !i.Contains(" ")).
                 OrderBy(i => i).GroupBy(g => g).Select(x => $"Word:{x.Key}  Count:{x.Count()}");
+            count = WordOrderByAlphabet.Count();
             return WordOrderByAlphabet;
         }
     }
